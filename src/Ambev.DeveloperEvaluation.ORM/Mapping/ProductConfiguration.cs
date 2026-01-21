@@ -1,0 +1,31 @@
+using Ambev. DeveloperEvaluation.Domain.Entities;
+using Microsoft. EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+
+namespace Ambev.DeveloperEvaluation.ORM.Mapping;
+public class ProductConfiguration : IEntityTypeConfiguration<Product>
+{
+    public void Configure(EntityTypeBuilder<Product> builder)
+    {
+        builder.ToTable("Products");
+
+        builder.HasKey(p => p.Id);
+        builder.Property(p => p. Id).HasColumnType("uuid").HasDefaultValueSql("gen_random_uuid()");
+
+        builder.Property(p => p.Name).IsRequired().HasMaxLength(200);
+        builder.Property(p => p.Sku).IsRequired().HasMaxLength(50);
+        builder.Property(p => p.Description).HasMaxLength(1000);
+        builder.Property(p => p. Price).IsRequired().HasColumnType("decimal(18,2)");
+        builder.Property(p => p.StockQuantity).IsRequired().HasDefaultValue(0);
+        builder.Property(p => p.Category).HasMaxLength(100);
+        builder.Property(p => p.IsActive).IsRequired().HasDefaultValue(true);
+
+        builder.Property(p => p.CreatedAt).IsRequired();
+        builder.Property(p => p.UpdatedAt);
+
+        // Indexes for better query performance
+        builder.HasIndex(p => p.Sku).IsUnique();
+        builder.HasIndex(p => p.Category);
+        builder.HasIndex(p => p.IsActive);
+    }
+}
