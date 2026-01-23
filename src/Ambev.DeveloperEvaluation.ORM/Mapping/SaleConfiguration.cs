@@ -31,7 +31,6 @@ public class SaleConfiguration : IEntityTypeConfiguration<Sale>
         // Cancellation
         builder.Property(s => s.IsCancelled).IsRequired().HasDefaultValue(false);
         builder.Property(s => s.CancelledAt);
-        builder.Property(s => s.CancellationReason).HasMaxLength(500);
 
         // Audit
         builder.Property(s => s.CreatedAt).IsRequired();
@@ -45,7 +44,7 @@ public class SaleConfiguration : IEntityTypeConfiguration<Sale>
 
         // Indexes for better query performance
         builder.HasIndex(s => s.SaleNumber).IsUnique();
-        builder.HasIndex(s => s. CustomerId);
+        builder.HasIndex(s => s.CustomerId);
         builder.HasIndex(s => s.BranchId);
         builder.HasIndex(s => s.SaleDate);
         builder.HasIndex(s => s.IsCancelled);

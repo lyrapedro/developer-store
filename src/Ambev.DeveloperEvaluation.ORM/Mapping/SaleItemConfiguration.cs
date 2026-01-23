@@ -1,4 +1,4 @@
-using Ambev.DeveloperEvaluation. Domain.Entities;
+using Ambev.DeveloperEvaluation.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -18,13 +18,13 @@ public class SaleItemConfiguration : IEntityTypeConfiguration<SaleItem>
 
         // External Identity: Product (denormalized)
         builder.Property(si => si.ProductId).IsRequired().HasColumnType("uuid");
-        builder.Property(si => si. ProductName).IsRequired().HasMaxLength(200);
+        builder.Property(si => si.ProductName).IsRequired().HasMaxLength(200);
         builder.Property(si => si.ProductSku).IsRequired().HasMaxLength(50);
 
         // Item data
         builder.Property(si => si.Quantity).IsRequired();
         builder.Property(si => si.UnitPrice).IsRequired().HasColumnType("decimal(18,2)");
-        builder.Property(si => si. Discount).IsRequired().HasColumnType("decimal(18,2)").HasDefaultValue(0);
+        builder.Property(si => si.Discount).IsRequired().HasColumnType("decimal(18,2)").HasDefaultValue(0);
         builder.Property(si => si.TotalAmount).IsRequired().HasColumnType("decimal(18,2)");
 
         // Audit

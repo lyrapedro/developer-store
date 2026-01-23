@@ -26,7 +26,7 @@ public class CreateProductCommandValidator : AbstractValidator<CreateProductComm
             .Length(3, 200)
             .WithMessage("Product name must be between 3 and 200 characters");
 
-        RuleFor(product => product. Sku)
+        RuleFor(product => product.Sku)
             .NotEmpty()
             .Length(3, 50)
             .WithMessage("SKU must be between 3 and 50 characters");

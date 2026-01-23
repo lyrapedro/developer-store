@@ -1,4 +1,4 @@
-namespace Ambev. DeveloperEvaluation.Application.Customers;
+namespace Ambev.DeveloperEvaluation.Application.Customers;
 
 /// <summary>
 /// Represents the response returned after successfully creating or retrieve a customer.

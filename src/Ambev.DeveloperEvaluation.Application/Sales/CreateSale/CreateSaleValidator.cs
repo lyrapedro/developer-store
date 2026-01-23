@@ -57,16 +57,12 @@ public class CreateSaleItemValidator : AbstractValidator<CreateSaleItemCommand>
             .NotEmpty()
             .WithMessage("Product ID is required");
 
-        RuleFor(item => item. Quantity)
+        RuleFor(item => item.Quantity)
             .GreaterThan(0)
             .WithMessage("Quantity must be greater than 0");
 
-        RuleFor(item => item. UnitPrice)
+        RuleFor(item => item.UnitPrice)
             .GreaterThanOrEqualTo(0)
             .WithMessage("Unit price must be greater than or equal to 0");
-
-        RuleFor(item => item. Discount)
-            .GreaterThanOrEqualTo(0)
-            .WithMessage("Discount must be greater than or equal to 0");
     }
 }

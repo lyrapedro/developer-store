@@ -24,7 +24,7 @@ public class CreateCustomerCommandValidator : AbstractValidator<CreateCustomerCo
     /// </remarks>
     public CreateCustomerCommandValidator()
     {
-        RuleFor(customer => customer. Name)
+        RuleFor(customer => customer.Name)
             .NotEmpty()
             .Length(3, 200)
             .WithMessage("Customer name must be between 3 and 200 characters");

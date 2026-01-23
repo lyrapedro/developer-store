@@ -21,9 +21,4 @@ public class CreateSaleItemCommand
     /// Gets or sets the unit price for this item.
     /// </summary>
     public decimal UnitPrice { get; set; }
-
-    /// <summary>
-    /// Gets or sets the discount applied to this item.
-    /// </summary>
-    public decimal Discount { get; set; }
 }

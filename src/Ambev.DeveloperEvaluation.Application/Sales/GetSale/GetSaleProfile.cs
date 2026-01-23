@@ -19,12 +19,12 @@ public class GetSaleProfile : Profile
             {
                 Id = src.CustomerId,
                 Name = src.CustomerName,
-                Email = src. CustomerEmail
+                Email = src.CustomerEmail
             }))
             .ForMember(dest => dest.Branch, opt => opt.MapFrom(src => new GetSaleBranchInfo
             {
                 Id = src.BranchId,
-                Name = src. BranchName,
+                Name = src.BranchName,
                 Code = src.BranchCode
             }))
             .ForMember(dest => dest.Items, opt => opt.MapFrom(src => src.Items));

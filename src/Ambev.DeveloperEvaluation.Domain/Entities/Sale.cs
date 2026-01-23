@@ -85,12 +85,6 @@ public class Sale : BaseEntity
     public DateTime? CancelledAt { get; set; }
 
     /// <summary>
-    /// Gets or sets the reason for cancellation.
-    /// Required when a sale is cancelled for auditing purposes.
-    /// </summary>
-    public string?  CancellationReason { get; set; }
-
-    /// <summary>
     /// Gets or sets the date and time when the sale was created. 
     /// </summary>
     public DateTime CreatedAt { get; set; }
@@ -106,6 +100,7 @@ public class Sale : BaseEntity
     /// </summary>
     public Sale()
     {
+        Id = Guid.NewGuid();
         CreatedAt = DateTime.UtcNow;
         SaleDate = DateTime.UtcNow;
         Items = new List<SaleItem>();
@@ -194,17 +189,13 @@ public class Sale : BaseEntity
     /// <param name="reason">The reason for cancellation (required for auditing)</param>
     /// <exception cref="InvalidOperationException">Thrown when the sale is already cancelled</exception>
     /// <exception cref="ArgumentException">Thrown when reason is null or empty</exception>
-    public void Cancel(string reason)
+    public void Cancel()
     {
         if (IsCancelled)
             throw new InvalidOperationException("Sale is already cancelled");
 
-        if (string.IsNullOrWhiteSpace(reason))
-            throw new ArgumentException("Cancellation reason is required", nameof(reason));
-
         IsCancelled = true;
         CancelledAt = DateTime.UtcNow;
-        CancellationReason = reason;
         UpdatedAt = DateTime.UtcNow;
     }
 
@@ -220,7 +211,6 @@ public class Sale : BaseEntity
 
         IsCancelled = false;
         CancelledAt = null;
-        CancellationReason = null;
         UpdatedAt = DateTime.UtcNow;
     }
 

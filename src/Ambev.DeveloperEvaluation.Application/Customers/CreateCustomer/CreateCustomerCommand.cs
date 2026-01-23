@@ -57,7 +57,7 @@ public class CreateCustomerCommand : IRequest<CustomerResult>
     /// <summary>
     /// Gets or sets the customer's ZIP code.
     /// </summary>
-    public string ZipCode { get; set; } = string. Empty;
+    public string ZipCode { get; set; } = string.Empty;
     
     public ValidationResultDetail Validate()
     {
