@@ -2,6 +2,7 @@ using AutoMapper;
 using MediatR;
 using Ambev.DeveloperEvaluation.Domain.Repositories;
 using Ambev.DeveloperEvaluation.Domain.Entities;
+using Ambev.DeveloperEvaluation.Domain.Events;
 using FluentValidation;
 
 namespace Ambev.DeveloperEvaluation.Application.Sales.CreateSale;
@@ -16,6 +17,7 @@ public class CreateSaleHandler : IRequestHandler<CreateSaleCommand, CreateSaleRe
     private readonly ICustomerRepository _customerRepository;
     private readonly IBranchRepository _branchRepository;
     private readonly IProductRepository _productRepository;
+    private readonly IMediator _mediator;
     private readonly IMapper _mapper;
 
     public CreateSaleHandler(
@@ -23,12 +25,14 @@ public class CreateSaleHandler : IRequestHandler<CreateSaleCommand, CreateSaleRe
         ICustomerRepository customerRepository,
         IBranchRepository branchRepository,
         IProductRepository productRepository,
+        IMediator mediator,
         IMapper mapper)
     {
         _saleRepository = saleRepository;
         _customerRepository = customerRepository;
         _branchRepository = branchRepository;
         _productRepository = productRepository;
+        _mediator = mediator;
         _mapper = mapper;
     }
 
@@ -115,6 +119,31 @@ public class CreateSaleHandler : IRequestHandler<CreateSaleCommand, CreateSaleRe
         }
         
         var createdSale = await _saleRepository.CreateAsync(sale, cancellationToken);
+        
+        var saleCreatedEvent = new SaleCreatedEvent(
+            saleId: createdSale.Id,
+            saleNumber: createdSale.SaleNumber,
+            customerId: createdSale.CustomerId,
+            customerName: createdSale.CustomerName,
+            customerEmail: createdSale.CustomerEmail,
+            branchId: createdSale.BranchId,
+            branchName: createdSale.BranchName,
+            totalAmount: createdSale.TotalAmount,
+            itemCount: createdSale.Items.Count,
+            createdAt: createdSale.CreatedAt,
+            items: createdSale.Items.Select(i => new SaleCreatedEventItem
+            {
+                ProductId = i.ProductId,
+                ProductName = i.ProductName,
+                ProductSku = i.ProductSku,
+                Quantity = i.Quantity,
+                UnitPrice = i.UnitPrice,
+                Discount = i.Discount,
+                TotalAmount = i.TotalAmount
+            }).ToList()
+        );
+
+        await _mediator.Publish(saleCreatedEvent, cancellationToken);
 
         return _mapper.Map<CreateSaleResult>(createdSale);
     }

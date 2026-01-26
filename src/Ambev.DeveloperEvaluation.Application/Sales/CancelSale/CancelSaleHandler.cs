@@ -1,3 +1,4 @@
+using Ambev.DeveloperEvaluation.Domain.Events;
 using AutoMapper;
 using MediatR;
 using Ambev.DeveloperEvaluation.Domain.Repositories;
@@ -12,6 +13,7 @@ public class CancelSaleHandler : IRequestHandler<CancelSaleCommand, CancelSaleRe
 {
     private readonly ISaleRepository _saleRepository;
     private readonly IProductRepository _productRepository;
+    private readonly IMediator _mediator;
     private readonly IMapper _mapper;
 
     /// <summary>
@@ -23,10 +25,12 @@ public class CancelSaleHandler : IRequestHandler<CancelSaleCommand, CancelSaleRe
     public CancelSaleHandler(
         ISaleRepository saleRepository,
         IProductRepository productRepository,
+        IMediator mediator,
         IMapper mapper)
     {
         _saleRepository = saleRepository;
         _productRepository = productRepository;
+        _mediator = mediator;
         _mapper = mapper;
     }
 
@@ -65,6 +69,28 @@ public class CancelSaleHandler : IRequestHandler<CancelSaleCommand, CancelSaleRe
         
         sale.Cancel();
         var cancelledSale = await _saleRepository.UpdateAsync(sale, cancellationToken);
+        
+        var saleCancelledEvent = new SaleCancelledEvent(
+            saleId: cancelledSale.Id,
+            saleNumber: cancelledSale.SaleNumber,
+            customerId: cancelledSale.CustomerId,
+            customerName: cancelledSale.CustomerName,
+            branchId: cancelledSale.BranchId,
+            branchName: cancelledSale.BranchName,
+            totalAmount: cancelledSale.TotalAmount,
+            cancelledAt: cancelledSale.CancelledAt ?? DateTime.UtcNow,
+            originalSaleDate: cancelledSale.SaleDate,
+            items: cancelledSale.Items.Select(i => new SaleCancelledEventItem
+            {
+                ProductId = i.ProductId,
+                ProductName = i.ProductName,
+                Quantity = i.Quantity,
+                TotalAmount = i.TotalAmount
+            }).ToList(),
+            cancelledBy: null // Could be populated from current user context
+        );
+
+        await _mediator.Publish(saleCancelledEvent, cancellationToken);
 
         return new CancelSaleResult
         {
