@@ -40,6 +40,19 @@ public class CreateSaleHandler : IRequestHandler<CreateSaleCommand, CreateSaleRe
         if (!validationResult.IsValid)
             throw new ValidationException(validationResult.Errors);
         
+        var duplicateProducts = request.Items
+            .GroupBy(i => i.ProductId)
+            .Where(g => g.Count() > 1)
+            .Select(g => g.Key)
+            .ToList();
+
+        if (duplicateProducts.Count != 0)
+        {
+            throw new InvalidOperationException(
+                $"Duplicate products found in sale: {string.Join(", ", duplicateProducts)}. " +
+                "Each product should appear only once. Use the Quantity property to specify multiple units.");
+        }
+        
         var customer = await _customerRepository.GetByIdAsync(request.CustomerId, cancellationToken);
         if (customer == null)
             throw new KeyNotFoundException($"Customer with ID {request.CustomerId} not found");
@@ -90,7 +103,7 @@ public class CreateSaleHandler : IRequestHandler<CreateSaleCommand, CreateSaleRe
                 ProductName = product.Name,
                 ProductSku = product.Sku,
                 Quantity = itemCommand.Quantity,
-                UnitPrice = itemCommand.UnitPrice
+                UnitPrice = product.Price
             };
             
             saleItem.ApplyAutomaticDiscount();

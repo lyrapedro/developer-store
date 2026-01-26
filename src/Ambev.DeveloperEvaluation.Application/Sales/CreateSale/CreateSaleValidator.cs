@@ -30,6 +30,10 @@ public class CreateSaleCommandValidator : AbstractValidator<CreateSaleCommand>
         RuleFor(sale => sale.Items)
             .NotEmpty()
             .WithMessage("Sale must contain at least one item");
+        
+        RuleFor(sale => sale.Items)
+            .Must(items => items == null || items.Select(i => i.ProductId).Distinct().Count() == items.Count)
+            .WithMessage("Duplicate products are not allowed. Use the Quantity property to specify multiple units of the same product.");
 
         RuleForEach(sale => sale.Items)
             .SetValidator(new CreateSaleItemValidator());

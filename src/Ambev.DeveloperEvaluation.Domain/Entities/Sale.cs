@@ -122,6 +122,13 @@ public class Sale : BaseEntity
 
         if (item == null)
             throw new ArgumentNullException(nameof(item));
+        
+        if (Items.Any(i => i.ProductId == item.ProductId))
+        {
+            throw new InvalidOperationException(
+                $"Product with ID {item.ProductId} is already in this sale. " +
+                "Please update the quantity of the existing item instead of adding a duplicate.");
+        }
 
         Items.Add(item);
         CalculateTotal();
