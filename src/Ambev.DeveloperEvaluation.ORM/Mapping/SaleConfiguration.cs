@@ -15,10 +15,10 @@ public class SaleConfiguration : IEntityTypeConfiguration<Sale>
         builder.Property(s => s.SaleNumber).IsRequired().HasMaxLength(50);
         builder.Property(s => s.SaleDate).IsRequired();
 
-        // External Identity:  Customer (denormalized)
-        builder.Property(s => s.CustomerId).IsRequired().HasColumnType("uuid");
-        builder.Property(s => s.CustomerName).IsRequired().HasMaxLength(200);
-        builder.Property(s => s.CustomerEmail).IsRequired().HasMaxLength(100);
+        // External Identity:  User (denormalized)
+        builder.Property(s => s.UserId).IsRequired().HasColumnType("uuid");
+        builder.Property(s => s.UserName).IsRequired().HasMaxLength(200);
+        builder.Property(s => s.UserEmail).IsRequired().HasMaxLength(100);
 
         // External Identity: Branch (denormalized)
         builder.Property(s => s.BranchId).IsRequired().HasColumnType("uuid");
@@ -44,7 +44,7 @@ public class SaleConfiguration : IEntityTypeConfiguration<Sale>
 
         // Indexes for better query performance
         builder.HasIndex(s => s.SaleNumber).IsUnique();
-        builder.HasIndex(s => s.CustomerId);
+        builder.HasIndex(s => s.UserId);
         builder.HasIndex(s => s.BranchId);
         builder.HasIndex(s => s.SaleDate);
         builder.HasIndex(s => s.IsCancelled);

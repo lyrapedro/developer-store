@@ -5,7 +5,7 @@ namespace Ambev.DeveloperEvaluation.Domain.Entities;
 /// <summary>
 /// Represents a sale transaction in the system.
 /// This is the aggregate root for the sale context, containing all sale items.
-/// Implements the External Identities pattern with denormalization for Customer and Branch data.
+/// Implements the External Identities pattern with denormalization for User and Branch data.
 /// This entity follows domain-driven design principles and includes business rules validation.
 /// </summary>
 public class Sale : BaseEntity
@@ -23,23 +23,23 @@ public class Sale : BaseEntity
     public DateTime SaleDate { get; set; }
 
     /// <summary>
-    /// Gets or sets the customer ID (External Identity pattern).
-    /// References the Customer entity from the customer domain.
+    /// Gets or sets the user ID (External Identity pattern).
+    /// References the User entity from the user domain.
     /// This is denormalized to avoid tight coupling between domains.
     /// </summary>
-    public Guid CustomerId { get; set; }
+    public Guid UserId { get; set; }
 
     /// <summary>
-    /// Gets or sets the customer's name at the time of sale (denormalized).
-    /// Stored to avoid queries to the customer domain and maintain historical accuracy.
+    /// Gets or sets the user's name at the time of sale (denormalized).
+    /// Stored to avoid queries to the user domain and maintain historical accuracy.
     /// </summary>
-    public string CustomerName { get; set; } = string.Empty;
+    public string UserName { get; set; } = string.Empty;
 
     /// <summary>
-    /// Gets or sets the customer's email at the time of sale (denormalized).
-    /// Stored to avoid queries to the customer domain and maintain historical accuracy.
+    /// Gets or sets the user's email at the time of sale (denormalized).
+    /// Stored to avoid queries to the user domain and maintain historical accuracy.
     /// </summary>
-    public string CustomerEmail { get; set; } = string.Empty;
+    public string UserEmail { get; set; } = string.Empty;
 
     /// <summary>
     /// Gets or sets the branch ID where the sale was made (External Identity pattern).
@@ -156,19 +156,19 @@ public class Sale : BaseEntity
     }
 
     /// <summary>
-    /// Updates the denormalized customer information.
-    /// Should be called if customer details change after sale creation but before completion.
+    /// Updates the denormalized user information.
+    /// Should be called if user details change after sale creation but before completion.
     /// </summary>
-    /// <param name="customerName">The updated customer name</param>
-    /// <param name="customerEmail">The updated customer email</param>
+    /// <param name="userName">The updated user name</param>
+    /// <param name="userEmail">The updated user email</param>
     /// <exception cref="InvalidOperationException">Thrown when trying to update a cancelled sale</exception>
-    public void UpdateCustomerInfo(string customerName, string customerEmail)
+    public void UpdateUserInfo(string userName, string userEmail)
     {
         if (IsCancelled)
             throw new InvalidOperationException("Cannot update a cancelled sale");
 
-        CustomerName = customerName;
-        CustomerEmail = customerEmail;
+        UserName = userName;
+        UserEmail = userEmail;
         UpdatedAt = DateTime.UtcNow;
     }
 

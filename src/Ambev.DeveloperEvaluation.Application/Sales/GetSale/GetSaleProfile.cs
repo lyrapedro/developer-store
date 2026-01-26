@@ -15,11 +15,11 @@ public class GetSaleProfile : Profile
     {
         // Sale entity -> GetSaleResult
         CreateMap<Sale, GetSaleResult>()
-            .ForMember(dest => dest.Customer, opt => opt.MapFrom(src => new GetSaleCustomerInfo
+            .ForMember(dest => dest.User, opt => opt.MapFrom(src => new GetSaleUserInfo
             {
-                Id = src.CustomerId,
-                Name = src.CustomerName,
-                Email = src.CustomerEmail
+                Id = src.UserId,
+                Name = src.UserName,
+                Email = src.UserEmail
             }))
             .ForMember(dest => dest.Branch, opt => opt.MapFrom(src => new GetSaleBranchInfo
             {

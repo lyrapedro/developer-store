@@ -19,17 +19,17 @@ public class SaleCreatedEvent : INotification
     public string SaleNumber { get; }
 
     /// <summary>
-    /// Gets the customer ID.
+    /// Gets the user ID.
     /// </summary>
     public Guid CustomerId { get; }
 
     /// <summary>
-    /// Gets the customer name.
+    /// Gets the user name.
     /// </summary>
     public string CustomerName { get; }
 
     /// <summary>
-    /// Gets the customer email.
+    /// Gets the user email.
     /// </summary>
     public string CustomerEmail { get; }
 
@@ -69,9 +69,9 @@ public class SaleCreatedEvent : INotification
     public SaleCreatedEvent(
         Guid saleId,
         string saleNumber,
-        Guid customerId,
-        string customerName,
-        string customerEmail,
+        Guid userId,
+        string userName,
+        string userEmail,
         Guid branchId,
         string branchName,
         decimal totalAmount,
@@ -81,9 +81,9 @@ public class SaleCreatedEvent : INotification
     {
         SaleId = saleId;
         SaleNumber = saleNumber;
-        CustomerId = customerId;
-        CustomerName = customerName;
-        CustomerEmail = customerEmail;
+        CustomerId = userId;
+        CustomerName = userName;
+        CustomerEmail = userEmail;
         BranchId = branchId;
         BranchName = branchName;
         TotalAmount = totalAmount;

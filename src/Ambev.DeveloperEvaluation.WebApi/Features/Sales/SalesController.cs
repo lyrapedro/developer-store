@@ -7,12 +7,14 @@ using Ambev.DeveloperEvaluation.WebApi.Features.Sales.CreateSale;
 using Microsoft.AspNetCore.Mvc;
 using MediatR;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Ambev.DeveloperEvaluation.WebApi.Features.Sales;
 
 /// <summary>
 /// Controller for managing user operations
 /// </summary>
+[Authorize]
 [ApiController]
 [Route("api/[controller]")]
 public class SalesController : BaseController
@@ -40,7 +42,7 @@ public class SalesController : BaseController
     [HttpPost]
     [ProducesResponseType(typeof(ApiResponseWithData<SaleResponse>), StatusCodes.Status201Created)]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
-    public async Task<IActionResult> CreateUser([FromBody] CreateSaleRequest request, CancellationToken cancellationToken)
+    public async Task<IActionResult> CreateSale([FromBody] CreateSaleRequest request, CancellationToken cancellationToken)
     {
         var command = _mapper.Map<CreateSaleCommand>(request);
         var response = await _mediator.Send(command, cancellationToken);

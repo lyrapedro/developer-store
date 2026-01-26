@@ -23,7 +23,7 @@ public class GetSaleResult
     /// <summary>
     /// Gets or sets the customer information.
     /// </summary>
-    public GetSaleCustomerInfo Customer { get; set; } = new();
+    public GetSaleUserInfo User { get; set; } = new();
 
     /// <summary>
     /// Gets or sets the branch information.
@@ -67,9 +67,9 @@ public class GetSaleResult
 }
 
 /// <summary>
-/// Customer information in get sale result.
+/// User information in get sale result.
 /// </summary>
-public class GetSaleCustomerInfo
+public class GetSaleUserInfo
 {
     /// <summary>
     /// Gets or sets the customer ID.

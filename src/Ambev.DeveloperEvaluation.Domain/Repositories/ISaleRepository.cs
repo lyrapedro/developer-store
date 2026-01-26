@@ -40,12 +40,12 @@ public interface ISaleRepository
     Task<List<Sale>> GetAllAsync(CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Retrieves sales by customer ID.
+    /// Retrieves sales by user ID.
     /// </summary>
-    /// <param name="customerId">The customer ID to filter by</param>
+    /// <param name="userId">The user ID to filter by</param>
     /// <param name="cancellationToken">Cancellation token</param>
-    /// <returns>A list of sales for the specified customer</returns>
-    Task<List<Sale>> GetByCustomerIdAsync(Guid customerId, CancellationToken cancellationToken = default);
+    /// <returns>A list of sales for the specified user</returns>
+    Task<List<Sale>> GetByUserIdAsync(Guid userId, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves sales by branch ID. 

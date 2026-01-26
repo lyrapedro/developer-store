@@ -17,11 +17,11 @@ public class CreateSaleProfile : Profile
         
         // Sale entity -> CreateSaleResult
         CreateMap<Sale, CreateSaleResult>()
-            .ForMember(dest => dest.Customer, opt => opt.MapFrom(src => new CustomerInfo
+            .ForMember(dest => dest.User, opt => opt.MapFrom(src => new UserInfo
             {
-                Id = src.CustomerId,
-                Name = src.CustomerName,
-                Email = src.CustomerEmail
+                Id = src.UserId,
+                Name = src.UserName,
+                Email = src.UserEmail
             }))
             .ForMember(dest => dest.Branch, opt => opt.MapFrom(src => new BranchInfo
             {

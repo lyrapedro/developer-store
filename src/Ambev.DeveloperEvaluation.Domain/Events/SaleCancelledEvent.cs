@@ -19,12 +19,12 @@ public class SaleCancelledEvent : INotification
     public string SaleNumber { get; }
 
     /// <summary>
-    /// Gets the customer ID.
+    /// Gets the user ID.
     /// </summary>
     public Guid CustomerId { get; }
 
     /// <summary>
-    /// Gets the customer name.
+    /// Gets the user name.
     /// </summary>
     public string CustomerName { get; }
 
@@ -74,8 +74,8 @@ public class SaleCancelledEvent : INotification
     public SaleCancelledEvent(
         Guid saleId,
         string saleNumber,
-        Guid customerId,
-        string customerName,
+        Guid userId,
+        string userName,
         Guid branchId,
         string branchName,
         decimal totalAmount,
@@ -86,8 +86,8 @@ public class SaleCancelledEvent : INotification
     {
         SaleId = saleId;
         SaleNumber = saleNumber;
-        CustomerId = customerId;
-        CustomerName = customerName;
+        CustomerId = userId;
+        CustomerName = userName;
         BranchId = branchId;
         BranchName = branchName;
         TotalAmount = totalAmount;

@@ -23,7 +23,7 @@ public class CreateSaleResult
     /// <summary>
     /// Gets or sets the customer information. 
     /// </summary>
-    public CustomerInfo Customer { get; set; } = new();
+    public UserInfo User { get; set; } = new();
 
     /// <summary>
     /// Gets or sets the branch information.
@@ -52,9 +52,9 @@ public class CreateSaleResult
 }
 
 /// <summary>
-/// Customer information in sale result.
+/// User information in sale result.
 /// </summary>
-public class CustomerInfo
+public class UserInfo
 {
     public Guid Id { get; set; }
     public string Name { get; set; } = string.Empty;

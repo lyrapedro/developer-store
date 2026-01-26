@@ -73,16 +73,16 @@ public class SaleRepository : ISaleRepository
     }
 
     /// <summary>
-    /// Retrieves sales by customer ID.
+    /// Retrieves sales by user ID.
     /// </summary>
-    /// <param name="customerId">The customer ID to filter by</param>
+    /// <param name="userId">The user ID to filter by</param>
     /// <param name="cancellationToken">Cancellation token</param>
-    /// <returns>A list of sales for the specified customer</returns>
-    public async Task<List<Sale>> GetByCustomerIdAsync(Guid customerId, CancellationToken cancellationToken = default)
+    /// <returns>A list of sales for the specified user</returns>
+    public async Task<List<Sale>> GetByUserIdAsync(Guid userId, CancellationToken cancellationToken = default)
     {
         return await _context.Sales
             .Include(s => s.Items)
-            .Where(s => s.CustomerId == customerId)
+            .Where(s => s.UserId == userId)
             .OrderByDescending(s => s.SaleDate)
             .ToListAsync(cancellationToken);
     }

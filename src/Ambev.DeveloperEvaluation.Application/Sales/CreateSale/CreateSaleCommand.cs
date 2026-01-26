@@ -22,9 +22,9 @@ namespace Ambev.DeveloperEvaluation.Application.Sales.CreateSale;
 public class CreateSaleCommand : IRequest<CreateSaleResult>
 {
     /// <summary>
-    /// Gets or sets the customer ID for this sale.
+    /// Gets or sets the user ID for this sale.
     /// </summary>
-    public Guid CustomerId { get; set; }
+    public Guid UserId { get; set; }
 
     /// <summary>
     /// Gets or sets the branch ID where the sale is being made.

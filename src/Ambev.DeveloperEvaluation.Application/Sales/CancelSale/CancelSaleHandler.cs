@@ -73,8 +73,8 @@ public class CancelSaleHandler : IRequestHandler<CancelSaleCommand, CancelSaleRe
         var saleCancelledEvent = new SaleCancelledEvent(
             saleId: cancelledSale.Id,
             saleNumber: cancelledSale.SaleNumber,
-            customerId: cancelledSale.CustomerId,
-            customerName: cancelledSale.CustomerName,
+            userId: cancelledSale.UserId,
+            userName: cancelledSale.UserName,
             branchId: cancelledSale.BranchId,
             branchName: cancelledSale.BranchName,
             totalAmount: cancelledSale.TotalAmount,

@@ -14,7 +14,7 @@ namespace Ambev.DeveloperEvaluation.Application.Sales.CreateSale;
 public class CreateSaleHandler : IRequestHandler<CreateSaleCommand, CreateSaleResult>
 {
     private readonly ISaleRepository _saleRepository;
-    private readonly ICustomerRepository _customerRepository;
+    private readonly IUserRepository _userRepository;
     private readonly IBranchRepository _branchRepository;
     private readonly IProductRepository _productRepository;
     private readonly IMediator _mediator;
@@ -22,14 +22,14 @@ public class CreateSaleHandler : IRequestHandler<CreateSaleCommand, CreateSaleRe
 
     public CreateSaleHandler(
         ISaleRepository saleRepository,
-        ICustomerRepository customerRepository,
+        IUserRepository userRepository,
         IBranchRepository branchRepository,
         IProductRepository productRepository,
         IMediator mediator,
         IMapper mapper)
     {
         _saleRepository = saleRepository;
-        _customerRepository = customerRepository;
+        _userRepository = userRepository;
         _branchRepository = branchRepository;
         _productRepository = productRepository;
         _mediator = mediator;
@@ -57,12 +57,9 @@ public class CreateSaleHandler : IRequestHandler<CreateSaleCommand, CreateSaleRe
                 "Each product should appear only once. Use the Quantity property to specify multiple units.");
         }
         
-        var customer = await _customerRepository.GetByIdAsync(request.CustomerId, cancellationToken);
-        if (customer == null)
-            throw new KeyNotFoundException($"Customer with ID {request.CustomerId} not found");
-
-        if (!customer.IsActive)
-            throw new InvalidOperationException($"Customer {customer.Name} is not active");
+        var user = await _userRepository.GetByIdAsync(request.UserId, cancellationToken);
+        if (user == null)
+            throw new KeyNotFoundException($"User with ID {request.UserId} not found");
         
         var branch = await _branchRepository.GetByIdAsync(request.BranchId, cancellationToken);
         if (branch == null)
@@ -77,9 +74,9 @@ public class CreateSaleHandler : IRequestHandler<CreateSaleCommand, CreateSaleRe
         {
             SaleNumber = saleNumber,
             SaleDate = DateTime.UtcNow,
-            CustomerId = customer.Id,
-            CustomerName = customer.Name,
-            CustomerEmail = customer.Email,
+            UserId = user.Id,
+            UserName = user.Username,
+            UserEmail = user.Email,
             BranchId = branch.Id,
             BranchName = branch.Name,
             BranchCode = branch.Code,
@@ -123,9 +120,9 @@ public class CreateSaleHandler : IRequestHandler<CreateSaleCommand, CreateSaleRe
         var saleCreatedEvent = new SaleCreatedEvent(
             saleId: createdSale.Id,
             saleNumber: createdSale.SaleNumber,
-            customerId: createdSale.CustomerId,
-            customerName: createdSale.CustomerName,
-            customerEmail: createdSale.CustomerEmail,
+            userId: createdSale.UserId,
+            userName: createdSale.UserName,
+            userEmail: createdSale.UserEmail,
             branchId: createdSale.BranchId,
             branchName: createdSale.BranchName,
             totalAmount: createdSale.TotalAmount,
