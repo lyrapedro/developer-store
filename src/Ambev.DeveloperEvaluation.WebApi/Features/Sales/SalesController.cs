@@ -85,7 +85,8 @@ public class SalesController : BaseController
     /// - Stock is returned to inventory for all items
     /// - The sale is preserved for historical/auditing purposes
     /// </remarks>
-    [HttpGet]
+    [HttpPost]
+    [Route("Cancel")]
     [ProducesResponseType(typeof(List<CancelSaleResponse>), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
