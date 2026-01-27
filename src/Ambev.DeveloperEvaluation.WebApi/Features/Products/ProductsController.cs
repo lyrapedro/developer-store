@@ -38,7 +38,7 @@ public class ProductsController : BaseController
     [HttpPost]
     [ProducesResponseType(typeof(ApiResponseWithData<ProductResponse>), StatusCodes.Status201Created)]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
-    public async Task<IActionResult> CreateUser([FromBody] CreateProductRequest request, CancellationToken cancellationToken)
+    public async Task<IActionResult> CreateProduct([FromBody] CreateProductRequest request, CancellationToken cancellationToken)
     {
         var command = _mapper.Map<CreateProductCommand>(request);
         var response = await _mediator.Send(command, cancellationToken);
@@ -63,10 +63,10 @@ public class ProductsController : BaseController
         var command = new GetAllProductsCommand();
         var result = await _mediator.Send(command, cancellationToken);
         
-        return Ok(new ApiResponseWithData<ProductResponse>
+        return Ok(new ApiResponseWithData<List<ProductResponse>>
         {
             Success = true,
-            Data = _mapper.Map<ProductResponse>(result)
+            Data = result.Select(r => _mapper.Map<ProductResponse>(r)).ToList()
         });
     }
 }

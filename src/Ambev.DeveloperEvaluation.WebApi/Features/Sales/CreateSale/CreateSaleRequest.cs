@@ -3,9 +3,9 @@ namespace Ambev.DeveloperEvaluation.WebApi.Features.Sales.CreateSale;
 public class CreateSaleRequest
 {
     /// <summary>
-    /// Gets or sets the customer ID for this sale.
+    /// Gets or sets the user ID for this sale.
     /// </summary>
-    public Guid CustomerId { get; set; }
+    public Guid UserId { get; set; }
 
     /// <summary>
     /// Gets or sets the branch ID where the sale is being made.

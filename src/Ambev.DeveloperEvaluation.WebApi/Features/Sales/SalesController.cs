@@ -67,10 +67,10 @@ public class SalesController : BaseController
         var command = new GetAllSalesCommand();
         var result = await _mediator.Send(command, cancellationToken);
         
-        return Ok(new ApiResponseWithData<SaleResponse>
+        return Ok(new ApiResponseWithData<List<SaleResponse>>
         {
             Success = true,
-            Data = _mapper.Map<SaleResponse>(result)
+            Data = result.Select(r => _mapper.Map<SaleResponse>(r)).ToList()
         });
     }
 

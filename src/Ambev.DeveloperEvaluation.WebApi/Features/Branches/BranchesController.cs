@@ -63,10 +63,10 @@ public class BranchesController : BaseController
         var command = new GetAllBranchesCommand();
         var result = await _mediator.Send(command, cancellationToken);
         
-        return Ok(new ApiResponseWithData<BranchResponse>
+        return Ok(new ApiResponseWithData<List<BranchResponse>>
         {
             Success = true,
-            Data = _mapper.Map<BranchResponse>(result)
+            Data = result.Select(r => _mapper.Map<BranchResponse>(r)).ToList()
         });
     }
 }

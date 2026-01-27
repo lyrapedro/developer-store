@@ -51,11 +51,6 @@ public class SaleResponse
     public DateTime? CancelledAt { get; set; }
 
     /// <summary>
-    /// Gets or sets the reason for cancellation.
-    /// </summary>
-    public string?  CancellationReason { get; set; }
-
-    /// <summary>
     /// Gets or sets the date and time when the sale was created. 
     /// </summary>
     public DateTime CreatedAt { get; set; }
